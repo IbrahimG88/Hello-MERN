@@ -14,7 +14,9 @@ const Product = ({ product }) => {
 
         <ListGroup variant='flush'>
           <ListGroup.Item>{product.category}</ListGroup.Item>
-          <ListGroup.Item>other items</ListGroup.Item>
+          <ListGroup.Item>
+            Days left: {product.daysTillDepletion}
+          </ListGroup.Item>
           <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
         </ListGroup>
 
