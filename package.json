@@ -1,0 +1,22 @@
+{
+  "name": "inventory-manager",
+  "version": "1.0.0",
+  "description": "MERN inventory manager app",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IbrahimG88/Hello-MERN.git"
+  },
+  "author": "Ibrahim",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/IbrahimG88/Hello-MERN/issues"
+  },
+  "homepage": "https://github.com/IbrahimG88/Hello-MERN#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
