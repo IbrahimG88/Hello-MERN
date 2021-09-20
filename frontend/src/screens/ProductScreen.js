@@ -48,6 +48,9 @@ const ProductScreen = ({ match }) => {
   product.sinceLastOrderDaysTillDepletion =
     amountInStockTotal / consumptionPerDay;
 
+  product.actualDaysTillDepletion =
+    product.sinceLastOrderDaysTillDepletion - duration;
+
   return (
     <>
       <Link className='btn btn-light my-3' to='/'>
@@ -64,6 +67,10 @@ const ProductScreen = ({ match }) => {
             <ListGroup.Item>
               sinceLastOrderDaysTillDepletion:
               {product.sinceLastOrderDaysTillDepletion}
+            </ListGroup.Item>
+            <ListGroup.Item>
+              actualDaysTillDepletion:
+              {product.actualDaysTillDepletion}
             </ListGroup.Item>
 
             <ListGroup.Item>Unit: {product.unit}</ListGroup.Item>
