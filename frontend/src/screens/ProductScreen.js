@@ -2,10 +2,36 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Row, Col, ListGroup, Card, Button } from "react-bootstrap";
 
+import { DateTime } from "luxon";
+
+import Interval from "luxon/src/interval.js";
+
 import axios from "axios";
 
 const ProductScreen = ({ match }) => {
   const [product, setProduct] = useState({});
+  const [lastSavedTime, setLastSavedTime] = useState({});
+  const [duration, setDuration] = useState({});
+
+  // next save the duration on the database to update it or update the
+  //days till depletion everytime you update the time
+  const calculateTimeDifference = () => {
+    let now = DateTime.local();
+
+    let i = Interval.fromDateTimes(lastSavedTime, now);
+
+    let duration = i.toDuration("seconds").toObject();
+
+    let seconds = JSON.stringify(duration.seconds);
+
+    setDuration(seconds);
+
+    setLastSavedTime(DateTime.local());
+  };
+
+  console.log("duration in seconds", JSON.stringify(duration));
+
+  console.log("last saved time", lastSavedTime);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -16,6 +42,11 @@ const ProductScreen = ({ match }) => {
 
     fetchProduct();
   }, [match]);
+
+  const { amountInStockTotal, consumptionPerDay } = product;
+
+  product.sinceLastOrderDaysTillDepletion =
+    amountInStockTotal / consumptionPerDay;
 
   return (
     <>
@@ -31,8 +62,10 @@ const ProductScreen = ({ match }) => {
 
             <ListGroup.Item>Category: {product.category}</ListGroup.Item>
             <ListGroup.Item>
-              Days till depletion: {product.daysTillDepletion}
+              sinceLastOrderDaysTillDepletion:
+              {product.sinceLastOrderDaysTillDepletion}
             </ListGroup.Item>
+
             <ListGroup.Item>Unit: {product.unit}</ListGroup.Item>
             <ListGroup.Item>
               Tests per unit: {product.testsPerUnit}
@@ -89,6 +122,15 @@ const ProductScreen = ({ match }) => {
                   disabled={product.amountInStockTotal === 0}
                 >
                   Add To Order
+                </Button>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <Button
+                  className='btn-block'
+                  type='button'
+                  onClick={calculateTimeDifference}
+                >
+                  Update time
                 </Button>
               </ListGroup.Item>
             </ListGroup>
